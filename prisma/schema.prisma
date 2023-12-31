@@ -23,7 +23,97 @@ generator kysely {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+  id         Int     @id @default(autoincrement())
+  publicId   String  @unique @map("public_id")
+  email      String  @unique
+  name       String?
+  /// @kyselyType('customer' | 'super-admin')
+  globalRole String  @default("customer")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @map("updated_at")
+
+  memberships       Membership[]
+  workspacesCreated Workspace[]
+  projects          ProjectsOnUsers[]
+  leading           Project[]
+
+  @@map("user")
+}
+
+model Workspace {
+  id         Int          @id @default(autoincrement())
+  name       String
+  publicId   String       @unique @map("public_id")
+  Membership Membership[]
+  Project    Project[]
+
+  creator   User?   @relation(fields: [creatorId], references: [publicId], onDelete: SetNull)
+  creatorId String? @map("creator_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @map("updated_at")
+
+  @@map("workspace")
+}
+
+model Membership {
+  id       Int    @id @default(autoincrement())
+  publicId String @unique @map("public_id")
+
+  workspace   Workspace @relation(fields: [workspaceId], references: [publicId], onDelete: Cascade)
+  workspaceId String    @map("workspace_id")
+
+  user   User   @relation(fields: [userId], references: [publicId], onDelete: Cascade)
+  userId String @map("user_id")
+
+  /// @kyselyType('accepted' | 'pending' | 'declined')
+  status String @default("pending")
+
+  joinedAt     DateTime? @map("joined_at")
+  // When the user joins, we will clear out the name and email and set the user.
+  invitedName  String?   @map("invited_name")
+  invitedEmail String?   @map("invited_email")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @map("updated_at")
+
+  @@map("membership")
+}
+
+model Project {
+  id          Int     @id @default(autoincrement())
+  publicId    String  @unique @map("public_id")
+  name        String
+  description String?
+
+  lead   User?   @relation(fields: [leadId], references: [publicId])
+  leadId String? @map("lead_id")
+
+  workspace   Workspace @relation(fields: [workspaceId], references: [publicId], onDelete: Cascade)
+  workspaceId String    @map("workspace_id")
+
+  members ProjectsOnUsers[]
+
+  /// @kyselyType('backlog' | 'planed' | 'in-progress' | 'paused' | 'completed' | 'cancelled')
+  status String @default("backlog")
+
+  startDate  DateTime? @map("start_date")
+  targetDate DateTime? @map("target_date")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @map("updated_at")
+
+  @@map("project")
+}
+
+model ProjectsOnUsers {
+  user       User     @relation(fields: [userId], references: [publicId])
+  userId     String   @map("user_id")
+  project    Project  @relation(fields: [projectId], references: [publicId])
+  projectId  String   @map("project_id")
+  assignedAt DateTime @default(now()) @map("assigned_at")
+
+  @@id([userId, projectId])
+  @@map("project_on_users")
 }
