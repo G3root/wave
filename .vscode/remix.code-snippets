@@ -3,9 +3,9 @@
 		"prefix": "/loader",
 		"scope": "typescriptreact,javascriptreact,typescript,javascript",
 		"body": [
-			"import { type DataFunctionArgs, json } from \"@remix-run/node\"",
+			"import { type LoaderFunctionArgs, json } from \"@remix-run/node\"",
 			"",
-			"export async function loader({ request }: DataFunctionArgs) {",
+			"export async function loader({ request }: LoaderFunctionArgs) {",
 			"  return json({})",
 			"}"
 		]
