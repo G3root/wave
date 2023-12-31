@@ -1,5 +1,9 @@
 import { cssBundleHref } from '@remix-run/css-bundle'
-import  { type LinksFunction } from '@remix-run/node'
+import {
+	type LinksFunction,
+	type LoaderFunctionArgs,
+	json,
+} from '@remix-run/node'
 import {
 	Links,
 	LiveReload,
@@ -7,8 +11,10 @@ import {
 	Outlet,
 	Scripts,
 	ScrollRestoration,
+	useLoaderData,
 } from '@remix-run/react'
 import tailwindStyleSheetUrl from './styles/tailwind.css'
+import { getEnv } from './utils/env.server'
 
 export const links: LinksFunction = () => [
 	{ rel: 'preload', href: tailwindStyleSheetUrl, as: 'style' },
@@ -20,7 +26,14 @@ export const links: LinksFunction = () => [
 	...(cssBundleHref ? [{ rel: 'stylesheet', href: cssBundleHref }] : []),
 ]
 
+export async function loader({ request }: LoaderFunctionArgs) {
+	return json({
+		ENV: getEnv(),
+	})
+}
+
 export default function App() {
+	const data = useLoaderData<typeof loader>()
 	return (
 		<html lang="en">
 			<head>
@@ -31,6 +44,11 @@ export default function App() {
 			</head>
 			<body>
 				<Outlet />
+				<script
+					dangerouslySetInnerHTML={{
+						__html: `window.ENV = ${JSON.stringify(data.ENV)}`,
+					}}
+				/>
 				<ScrollRestoration />
 				<Scripts />
 				<LiveReload />
