@@ -8,8 +8,15 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+import tailwindStyleSheetUrl from "./styles/tailwind.css";
 
 export const links: LinksFunction = () => [
+  { rel: "preload", href: tailwindStyleSheetUrl, as: "style" },
+  ...(cssBundleHref
+    ? [{ rel: "preload", href: cssBundleHref, as: "style" }]
+    : []),
+
+  { rel: "stylesheet", href: tailwindStyleSheetUrl },
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
 ];
 
