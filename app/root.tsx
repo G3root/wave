@@ -126,7 +126,7 @@ function App() {
 	return (
 		<Document nonce={nonce} theme={theme} env={data.ENV}>
 			<Outlet />
-			<Toaster closeButton theme={theme} />
+			<Toaster theme={theme} />
 		</Document>
 	)
 }
