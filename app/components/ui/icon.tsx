@@ -57,6 +57,7 @@ export function Icon({
 	}
 	return (
 		<svg
+			aria-hidden
 			{...props}
 			className={cn(sizeClassName[size], 'inline self-center', className)}
 		>
