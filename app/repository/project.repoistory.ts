@@ -12,3 +12,14 @@ export const createProject = (db: KyselyDb, data: TCreateProjectSchema) => {
 		})
 		.executeTakeFirst()
 }
+
+export const getWorkspaceProjects = (
+	db: KyselyDb,
+	{ workspaceId }: { workspaceId: string },
+) => {
+	return db
+		.selectFrom('project')
+		.select(['name', 'publicId', 'createdAt', 'description', 'status'])
+		.where('workspaceId', '=', workspaceId)
+		.execute()
+}
