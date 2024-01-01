@@ -5,8 +5,10 @@ import { json, type ActionFunctionArgs } from '@remix-run/node'
 import { useActionData, Form } from '@remix-run/react'
 
 import { Field, TextareaField } from '~/components/forms'
+import { createProject } from '~/repository/project.repoistory'
 import { useDashboardLoaderData } from '~/routes/_dashboard/route'
 import { createProjectSchema } from '~/schema/project.schema'
+import { db } from '~/utils/db.server'
 import { createToastHeaders } from '~/utils/toast.server'
 
 export async function createProjectFormAction({ request }: ActionFunctionArgs) {
@@ -16,6 +18,8 @@ export async function createProjectFormAction({ request }: ActionFunctionArgs) {
 	if (!submission.value) {
 		return json({ status: 'error', submission }, { status: 400 })
 	}
+
+	await createProject(db, submission.value)
 
 	return json(
 		{ submission },
