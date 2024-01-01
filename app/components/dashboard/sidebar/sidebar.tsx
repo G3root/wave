@@ -1,4 +1,4 @@
-import { useMatches } from '@remix-run/react'
+import { Link, useMatches } from '@remix-run/react'
 import { type ReactNode } from 'react'
 import { Button } from '~/components/ui/button'
 import { Icon } from '~/components/ui/icon'
@@ -11,23 +11,50 @@ type NavItem = {
 	label: string
 	active?: boolean
 	Icon: ReactNode
+	path?: string
+}
+
+function NavItem(item: NavItem) {
+	const children = (
+		<>
+			{item.Icon}
+			{item.label}
+		</>
+	)
+	return (
+		<Button
+			asChild
+			variant={item.active ? 'secondary' : 'ghost'}
+			className="flex w-full justify-start gap-x-2"
+			key={item.label}
+		>
+			{item?.path ? (
+				<Link to={item.path}>{children}</Link>
+			) : (
+				<button>{children}</button>
+			)}
+		</Button>
+	)
 }
 
 export function SideBar({ className }: SideBarProps) {
 	const matches = useMatches()
-
-	console.log({ matches })
+	const path = matches[2].pathname
 
 	const navigation: NavItem[] = [
 		{
 			label: 'Dashboard',
 			active: matches.length === 3 && matches[2].id === 'routes/_dashboard.$id',
 			Icon: <Icon name="dashboard" />,
+			path: path,
 		},
 		{
 			label: 'Projects',
-			active: false,
+			active:
+				matches.length === 4 &&
+				matches[3].id === 'routes/_dashboard.$id.projects',
 			Icon: <Icon name="card-stack" />,
+			path: path + '/projects',
 		},
 		{
 			label: 'Inbox',
@@ -41,14 +68,7 @@ export function SideBar({ className }: SideBarProps) {
 				<div className="flex flex-col gap-y-4 px-3 py-2">
 					<div className="gap-y-1">
 						{navigation.map(item => (
-							<Button
-								variant={item.active ? 'secondary' : 'ghost'}
-								className="flex w-full justify-start gap-x-2"
-								key={item.label}
-							>
-								{item.Icon}
-								{item.label}
-							</Button>
+							<NavItem key={item.label} {...item} />
 						))}
 					</div>
 				</div>
