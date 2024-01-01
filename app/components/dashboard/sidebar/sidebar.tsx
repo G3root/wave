@@ -44,7 +44,9 @@ export function SideBar({ className }: SideBarProps) {
 	const navigation: NavItem[] = [
 		{
 			label: 'Dashboard',
-			active: matches.length === 3 && matches[2].id === 'routes/_dashboard.$id',
+			active:
+				matches.length === 4 &&
+				matches[3].id === 'routes/_dashboard.$id._index',
 			Icon: <Icon name="dashboard" />,
 			path: path,
 		},
