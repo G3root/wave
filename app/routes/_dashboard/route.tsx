@@ -1,9 +1,9 @@
 import { invariant, invariantResponse } from '@epic-web/invariant'
 import { type LoaderFunctionArgs, json } from '@remix-run/node'
 import { Outlet, useRouteLoaderData } from '@remix-run/react'
-import { SideBar } from '~/components/dashboard/sidebar'
-
 import { auth } from '~/utils/auth.server'
+import { SideBar } from './sidebar'
+
 
 export async function loader({ request, params, context }: LoaderFunctionArgs) {
 	const user = await auth.isAuthenticated(request, {
