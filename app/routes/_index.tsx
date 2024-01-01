@@ -1,10 +1,25 @@
-import  { type MetaFunction } from '@remix-run/node'
+import {
+	type MetaFunction,
+	type LoaderFunctionArgs,
+	json,
+	redirect,
+} from '@remix-run/node'
+import { auth } from '~/utils/auth.server'
 
 export const meta: MetaFunction = () => {
 	return [
 		{ title: 'New Remix App' },
 		{ name: 'description', content: 'Welcome to Remix!' },
 	]
+}
+
+export async function loader({ request }: LoaderFunctionArgs) {
+	const user = await auth.isAuthenticated(request)
+
+	if (user) {
+		return redirect(`/${user.wsPbId}`)
+	}
+	return json({})
 }
 
 export default function Index() {
