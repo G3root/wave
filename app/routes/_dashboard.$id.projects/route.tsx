@@ -1,3 +1,9 @@
+import { Header } from './header'
+
 export default function ProjectsPage() {
-	return <div>Projects Page</div>
+	return (
+		<Header>
+			<div>Projects Page</div>
+		</Header>
+	)
 }
