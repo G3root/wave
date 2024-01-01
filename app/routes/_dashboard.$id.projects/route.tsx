@@ -1,4 +1,7 @@
+import { createProjectFormAction } from '~/forms/create-project'
 import { Header } from './header'
+
+export const action = createProjectFormAction
 
 export default function ProjectsPage() {
 	return (
