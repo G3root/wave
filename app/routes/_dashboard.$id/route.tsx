@@ -1,3 +1,5 @@
-export default function DashboardPage() {
-	return <div>hello world</div>
+import { Outlet } from '@remix-run/react'
+
+export default function DashboardIdLayoutPage() {
+	return <Outlet />
 }
