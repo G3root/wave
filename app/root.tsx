@@ -13,10 +13,14 @@ import {
 	ScrollRestoration,
 	useLoaderData,
 } from '@remix-run/react'
+import { href as iconsHref } from './components/ui/icon'
 import tailwindStyleSheetUrl from './styles/tailwind.css'
 import { getEnv } from './utils/env.server'
 
 export const links: LinksFunction = () => [
+	// Preload svg sprite as a resource to avoid render blocking
+	{ rel: 'preload', href: iconsHref, as: 'image' },
+	// Preload CSS as a resource to avoid render blocking
 	{ rel: 'preload', href: tailwindStyleSheetUrl, as: 'style' },
 	...(cssBundleHref
 		? [{ rel: 'preload', href: cssBundleHref, as: 'style' }]

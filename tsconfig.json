@@ -7,13 +7,18 @@
     "jsx": "react-jsx",
     "moduleResolution": "Bundler",
     "resolveJsonModule": true,
+    "module": "ES2022",
     "target": "ES2022",
     "strict": true,
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./app/*"]
+      "~/*": ["./app/*"],
+      "@/icon-name": [
+        "./app/components/ui/icons/name.d.ts",
+        "./types/icon-name.d.ts"
+      ]
     },
 
     // Remix takes care of building everything in `remix build`.

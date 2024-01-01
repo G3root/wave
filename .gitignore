@@ -7,3 +7,7 @@ node_modules
 
 data.db
 data.db-journal
+
+
+# generated files
+/app/components/ui/icons

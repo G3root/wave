@@ -4,7 +4,10 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "build": "remix build",
+    "build": "run-s build:*",
+    "build:icons": "tsx ./other/build-icons.ts",
+    "build:remix": "remix build --sourcemap",
+    "predev": "npm run build:icons --silent",
     "dev": "remix dev --manual",
     "format": "prettier --write .",
     "lint": "eslint .",
@@ -31,6 +34,7 @@
     "better-sqlite3": "^9.2.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
+    "execa": "^8.0.1",
     "isbot": "^3.6.8",
     "kysely": "^0.27.0",
     "nanoid": "^5.0.4",
@@ -46,8 +50,10 @@
   "devDependencies": {
     "@remix-run/dev": "^2.4.1",
     "@remix-run/eslint-config": "^2.4.1",
+    "@sly-cli/sly": "^1.7.0",
     "@total-typescript/ts-reset": "^0.5.1",
     "@types/better-sqlite3": "^7.6.8",
+    "@types/fs-extra": "^11.0.4",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.7.4",
@@ -58,14 +64,21 @@
     "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "fs-extra": "^11.2.0",
+    "node-html-parser": "^6.1.12",
+    "npm-run-all": "^4.1.5",
     "prettier": "^3.1.1",
     "prettier-plugin-tailwindcss": "^0.5.10",
     "prisma": "^5.7.1",
     "prisma-kysely": "^1.7.1",
     "tailwindcss": "^3.4.0",
+    "tsx": "^4.7.0",
     "typescript": "^5.1.6"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": "20"
+  },
+  "volta": {
+    "node": "20.10.0"
   }
 }
