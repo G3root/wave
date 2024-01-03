@@ -2,7 +2,7 @@ import { invariant, invariantResponse } from '@epic-web/invariant'
 import { type LoaderFunctionArgs, json } from '@remix-run/node'
 import { Outlet, useRouteLoaderData } from '@remix-run/react'
 import { auth } from '~/utils/auth.server'
-import { SideBar } from './sidebar'
+import { SideBar } from './__sidebar'
 
 
 export async function loader({ request, params, context }: LoaderFunctionArgs) {
@@ -10,15 +10,18 @@ export async function loader({ request, params, context }: LoaderFunctionArgs) {
 		failureRedirect: '/login',
 	})
 
-	invariantResponse(params.id, 'id params not found')
+	invariantResponse(params.workspaceId, 'workspaceId params not found')
 	invariantResponse(user, 'user not found')
-	invariantResponse(params.id === user.wsPbId, 'user not authenticated')
+	invariantResponse(
+		params.workspaceId === user.wsPbId,
+		'user not authenticated',
+	)
 
 	return json({ user })
 }
 
 export const useDashboardLoaderData = () => {
-	const data = useRouteLoaderData<typeof loader>('routes/_dashboard')
+	const data = useRouteLoaderData<typeof loader>('routes/_dashboard+/_layout')
 
 	invariant(
 		data,

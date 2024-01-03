@@ -6,7 +6,7 @@ import { useActionData, Form } from '@remix-run/react'
 
 import { Field, TextareaField } from '~/components/forms'
 import { createProject } from '~/repository/project.repoistory'
-import { useDashboardLoaderData } from '~/routes/_dashboard/route'
+import { useDashboardLoaderData } from '~/routes/_dashboard+/_layout'
 import { createProjectSchema } from '~/schema/project.schema'
 import { db } from '~/utils/db.server'
 import { createToastHeaders } from '~/utils/toast.server'

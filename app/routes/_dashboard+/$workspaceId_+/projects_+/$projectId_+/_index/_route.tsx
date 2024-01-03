@@ -1,3 +1,3 @@
 export default function ProjectDetailPage() {
-	return <div>hellosdsad</div>
+	return <div>Project detail Page</div>
 }

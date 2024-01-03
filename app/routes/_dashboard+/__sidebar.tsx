@@ -1,8 +1,11 @@
-import { Link, useMatches } from '@remix-run/react'
+import { Link, useLocation } from '@remix-run/react'
 import { type ReactNode } from 'react'
 import { Button } from '~/components/ui/button'
 import { Icon } from '~/components/ui/icon'
+import { useDashboardLoaderData } from '~/routes/_dashboard+/_layout'
+
 import { cn } from '~/utils/misc'
+
 interface SideBarProps {
 	className?: string
 }
@@ -38,25 +41,22 @@ function NavItem(item: NavItem) {
 }
 
 export function SideBar({ className }: SideBarProps) {
-	const matches = useMatches()
-	const path = matches[2].pathname
+	const { pathname } = useLocation()
+	const { user } = useDashboardLoaderData()
+	const basePath = `/${user.wsPbId}`
 
 	const navigation: NavItem[] = [
 		{
 			label: 'Dashboard',
-			active:
-				matches.length === 4 &&
-				matches[3].id === 'routes/_dashboard.$id._index',
+			active: pathname === basePath,
 			Icon: <Icon name="dashboard" />,
-			path: path,
+			path: basePath,
 		},
 		{
 			label: 'Projects',
-			active:
-				matches.length === 4 &&
-				matches[3].id === 'routes/_dashboard.$id.projects',
+			active: pathname.startsWith(basePath + '/projects'),
 			Icon: <Icon name="card-stack" />,
-			path: path + '/projects',
+			path: basePath + '/projects',
 		},
 		{
 			label: 'Inbox',

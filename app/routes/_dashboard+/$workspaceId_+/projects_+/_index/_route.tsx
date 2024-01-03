@@ -6,7 +6,7 @@ import { createProjectFormAction } from '~/forms/create-project'
 import { getWorkspaceProjects } from '~/repository/project.repoistory'
 import { auth } from '~/utils/auth.server'
 import { db } from '~/utils/db.server'
-import { Header } from './header'
+import { Header } from './__header'
 
 export const action = createProjectFormAction
 
