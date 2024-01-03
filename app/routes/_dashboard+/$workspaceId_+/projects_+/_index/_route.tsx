@@ -1,12 +1,11 @@
 import { invariantResponse } from '@epic-web/invariant'
 import { type LoaderFunctionArgs, json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
-import { ProjectListTable } from '~/components/project/project-list-table'
+import { ProjectCard } from '~/components/project/project-card'
 import { createProjectFormAction } from '~/forms/create-project'
 import { getWorkspaceProjects } from '~/repository/project.repoistory'
 import { auth } from '~/utils/auth.server'
 import { db } from '~/utils/db.server'
-import { Header } from './__header'
 
 export const action = createProjectFormAction
 
@@ -24,8 +23,20 @@ export default function ProjectsPage() {
 	const data = useLoaderData<ProjectPageLoader>()
 
 	return (
-		<Header>
-			<ProjectListTable data={data.projects} />
-		</Header>
+		<>
+			{data.projects.length ? (
+				<div className="grid grid-cols-3 gap-6">
+					{data.projects.map(item => (
+						<ProjectCard
+							name={item.name}
+							description={item.description}
+							key={item.publicId}
+							status={item.status}
+							publicId={item.publicId}
+						/>
+					))}
+				</div>
+			) : null}
+		</>
 	)
 }

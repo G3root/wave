@@ -1,5 +1,4 @@
-import { type Selectable } from 'kysely'
-import { type Project } from '~/types/db'
+import { type ProjectStatus } from '~/types/kysely-schema'
 export const TEST_ADMINS = [
 	'test-admin1@exmple.com',
 	'test-admin2@exmple.com',
@@ -8,9 +7,7 @@ export const TEST_ADMINS = [
 	'test-admin5@exmple.com',
 ] as const
 
-type TProjectStatus = Selectable<Project>['status']
-
-export const PROJECT_STATUS: TProjectStatus[] = [
+export const PROJECT_STATUS: ProjectStatus[] = [
 	'backlog',
 	'cancelled',
 	'completed',
