@@ -35,8 +35,6 @@ model User {
 
   memberships       Membership[]
   workspacesCreated Workspace[]
-  projects          ProjectsOnUsers[]
-  leading           Project[]
 
   @@map("user")
 }
@@ -75,8 +73,10 @@ model Membership {
   invitedName  String?   @map("invited_name")
   invitedEmail String?   @map("invited_email")
 
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @default(now()) @map("updated_at")
+  createdAt DateTime            @default(now()) @map("created_at")
+  updatedAt DateTime            @default(now()) @map("updated_at")
+  leading   Project[]
+  projects  ProjectsOnMembers[]
 
   @@map("membership")
 }
@@ -87,13 +87,13 @@ model Project {
   name        String
   description String?
 
-  lead   User?   @relation(fields: [leadId], references: [publicId])
-  leadId String? @map("lead_id")
+  lead   Membership? @relation(fields: [leadId], references: [publicId])
+  leadId String?     @map("lead_id")
 
   workspace   Workspace @relation(fields: [workspaceId], references: [publicId], onDelete: Cascade)
   workspaceId String    @map("workspace_id")
 
-  members ProjectsOnUsers[]
+  members ProjectsOnMembers[]
 
   /// @kyselyType('backlog' | 'planed' | 'in-progress' | 'paused' | 'completed' | 'cancelled')
   status String @default("backlog")
@@ -107,13 +107,13 @@ model Project {
   @@map("project")
 }
 
-model ProjectsOnUsers {
-  user       User     @relation(fields: [userId], references: [publicId])
-  userId     String   @map("user_id")
-  project    Project  @relation(fields: [projectId], references: [publicId])
-  projectId  String   @map("project_id")
-  assignedAt DateTime @default(now()) @map("assigned_at")
+model ProjectsOnMembers {
+  membership   Membership @relation(fields: [membershipId], references: [publicId])
+  membershipId String     @map("membership_id")
+  project      Project    @relation(fields: [projectId], references: [publicId])
+  projectId    String     @map("project_id")
+  assignedAt   DateTime   @default(now()) @map("assigned_at")
 
-  @@id([userId, projectId])
-  @@map("project_on_users")
+  @@id([membershipId, projectId])
+  @@map("project_on_members")
 }

@@ -35,8 +35,8 @@ export type Project = {
     createdAt: Generated<string>;
     updatedAt: Generated<string>;
 };
-export type ProjectsOnUsers = {
-    userId: string;
+export type ProjectsOnMembers = {
+    membershipId: string;
     projectId: string;
     assignedAt: Generated<string>;
 };
@@ -63,7 +63,7 @@ export type Workspace = {
 export type DB = {
     membership: Membership;
     project: Project;
-    projectOnUsers: ProjectsOnUsers;
+    projectOnMembers: ProjectsOnMembers;
     user: User;
     workspace: Workspace;
 };

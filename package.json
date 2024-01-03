@@ -46,6 +46,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "cookie": "^0.6.0",
+    "dayjs": "^1.11.10",
     "execa": "^8.0.1",
     "isbot": "^3.6.8",
     "kysely": "^0.27.0",
@@ -63,6 +64,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.3.1",
     "@remix-run/dev": "^2.4.1",
     "@remix-run/eslint-config": "^2.4.1",
     "@sly-cli/sly": "^1.7.0",
@@ -96,5 +98,8 @@
   },
   "volta": {
     "node": "20.10.0"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   }
 }

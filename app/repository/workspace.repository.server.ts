@@ -18,11 +18,15 @@ interface createWorkspaceOptions {
 	userPublicId: string
 }
 
+export const generateWorkspaceName = () => {
+	return uniqueNamesGenerator(config)
+}
+
 export const createWorkspace = async (
 	db: KyselyDb,
 	{ userPublicId, workspaceName: workspaceName_ }: createWorkspaceOptions,
 ) => {
-	const workspaceName = workspaceName_ ?? uniqueNamesGenerator(config)
+	const workspaceName = workspaceName_ ?? generateWorkspaceName()
 
 	const workspace = await db
 		.insertInto('workspace')
