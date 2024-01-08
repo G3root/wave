@@ -26,7 +26,7 @@ export const createUser = async (
 	const data = await db
 		.insertInto('user')
 		.values({
-			publicId: generatePublicId('user'),
+			publicId: generatePublicId(),
 			email,
 		})
 		.returningAll()

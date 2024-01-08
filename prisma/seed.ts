@@ -63,7 +63,7 @@ async function seed() {
 			await prisma.project.create({
 				data: {
 					name: faker.lorem.words({ max: 6, min: 3 }),
-					publicId: generatePublicId('project'),
+					publicId: generatePublicId(),
 					description: faker.helpers.maybe(() => faker.lorem.paragraph()),
 					status: faker.helpers.arrayElement(PROJECT_STATUS),
 					workspace: {

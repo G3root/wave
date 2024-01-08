@@ -32,7 +32,7 @@ export const createWorkspace = async (
 		.insertInto('workspace')
 		.values({
 			name: workspaceName,
-			publicId: generatePublicId('workspace'),
+			publicId: generatePublicId(),
 			creatorId: userPublicId,
 		})
 		.returningAll()
@@ -41,7 +41,7 @@ export const createWorkspace = async (
 	const membership = await db
 		.insertInto('membership')
 		.values({
-			publicId: generatePublicId('member'),
+			publicId: generatePublicId(),
 			workspaceId: workspace.publicId,
 			status: 'accepted',
 			joinedAt: new Date().toISOString(),

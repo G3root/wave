@@ -7,7 +7,7 @@ export const createProject = (db: KyselyDb, data: TCreateProjectSchema) => {
 		.insertInto('project')
 		.returningAll()
 		.values({
-			publicId: generatePublicId('project'),
+			publicId: generatePublicId(),
 			...data,
 		})
 		.executeTakeFirst()

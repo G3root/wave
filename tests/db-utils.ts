@@ -7,7 +7,7 @@ export function createUser(email: string) {
 	return prisma.user.create({
 		data: {
 			email,
-			publicId: generatePublicId('user'),
+			publicId: generatePublicId(),
 		},
 	})
 }
@@ -18,7 +18,7 @@ export function createWorkspace(creator: Tuser) {
 	return prisma.workspace.create({
 		data: {
 			name: generateWorkspaceName(),
-			publicId: generatePublicId('workspace'),
+			publicId: generatePublicId(),
 			creator: {
 				connect: creator,
 			},
@@ -31,7 +31,7 @@ export type TWorkspace = Awaited<ReturnType<typeof createWorkspace>>
 export function createMembership(user: Tuser, workspace: TWorkspace) {
 	return prisma.membership.create({
 		data: {
-			publicId: generatePublicId('member'),
+			publicId: generatePublicId(),
 			user: {
 				connect: user,
 			},
