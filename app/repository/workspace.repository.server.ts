@@ -52,3 +52,21 @@ export const createWorkspace = async (
 
 	return { workspace, membership }
 }
+
+interface isWorkspaceMemberOptions {
+	workspaceId: string
+	membershipId: string
+}
+
+export const isWorkspaceMember = async (
+	db: KyselyDb,
+	{ workspaceId, membershipId }: isWorkspaceMemberOptions,
+) => {
+	const data = await db
+		.selectFrom('membership as m')
+		.where('m.workspaceId', '==', workspaceId)
+		.where('m.publicId', '==', membershipId)
+		.executeTakeFirst()
+
+	return !!data
+}
