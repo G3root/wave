@@ -5,7 +5,7 @@ import { json, type ActionFunctionArgs } from '@remix-run/node'
 import { useActionData, Form } from '@remix-run/react'
 
 import { Field, TextareaField } from '~/components/forms'
-import { createProject } from '~/repository/project.repoistory'
+import { createProject } from '~/repository/project.repository.server'
 import { useDashboardLoaderData } from '~/routes/_dashboard+/_layout'
 import { createProjectSchema } from '~/schema/project.schema'
 import { db } from '~/utils/db.server'
@@ -64,7 +64,11 @@ export function CreateProjectForm() {
 				}}
 				errors={fields.description.errors}
 			/>
-			<input type="hidden" value={user.wsPbId} name={fields.workspaceId.name} />
+			<input
+				type="hidden"
+				value={user.workspaceId}
+				name={fields.workspaceId.name}
+			/>
 		</Form>
 	)
 }

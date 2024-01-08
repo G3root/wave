@@ -4,7 +4,7 @@ import {
 	type VerifyEmailFunction,
 } from 'remix-auth-email-link'
 import * as z from 'zod'
-import { getOrCreateSession } from '~/repository/session.repoistory'
+import { getOrCreateSession } from '~/repository/session.repository.server'
 
 import { db } from './db.server'
 import { sessionStorage } from './session.server'

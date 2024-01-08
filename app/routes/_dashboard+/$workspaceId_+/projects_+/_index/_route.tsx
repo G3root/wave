@@ -3,7 +3,7 @@ import { type LoaderFunctionArgs, json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { ProjectCard } from '~/components/project/project-card'
 import { createProjectFormAction } from '~/forms/create-project'
-import { getWorkspaceProjects } from '~/repository/project.repoistory'
+import { getWorkspaceProjects } from '~/repository/project.repository.server'
 import { auth } from '~/utils/auth.server'
 import { db } from '~/utils/db.server'
 
