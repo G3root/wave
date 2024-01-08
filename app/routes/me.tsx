@@ -11,8 +11,9 @@ export default function Me() {
 	let { user } = useLoaderData<typeof loader>()
 	return (
 		<div>
-			<h1>Welcome {user.userPbId}</h1>
-			<p>You are logged in as {user.wsPbId}</p>
+			<h1>membership id {user.userId}</h1>
+			<p>workspace id {user.workspaceId}</p>
+			<p>membership id {user.membershipId}</p>
 		</div>
 	)
 }

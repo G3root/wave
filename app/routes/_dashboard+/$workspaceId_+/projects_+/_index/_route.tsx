@@ -13,7 +13,9 @@ export async function loader({ request }: LoaderFunctionArgs) {
 	const user = await auth.isAuthenticated(request)
 
 	invariantResponse(user, 'user not authenticated')
-	const projects = await getWorkspaceProjects(db, { workspaceId: user.wsPbId })
+	const projects = await getWorkspaceProjects(db, {
+		workspaceId: user.workspaceId,
+	})
 	return json({ projects })
 }
 

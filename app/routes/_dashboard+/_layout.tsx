@@ -4,7 +4,6 @@ import { Outlet, useRouteLoaderData } from '@remix-run/react'
 import { auth } from '~/utils/auth.server'
 import { SideBar } from './__sidebar'
 
-
 export async function loader({ request, params, context }: LoaderFunctionArgs) {
 	const user = await auth.isAuthenticated(request, {
 		failureRedirect: '/login',
@@ -13,7 +12,7 @@ export async function loader({ request, params, context }: LoaderFunctionArgs) {
 	invariantResponse(params.workspaceId, 'workspaceId params not found')
 	invariantResponse(user, 'user not found')
 	invariantResponse(
-		params.workspaceId === user.wsPbId,
+		params.workspaceId === user.workspaceId,
 		'user not authenticated',
 	)
 

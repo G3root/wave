@@ -17,7 +17,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 	const user = await auth.isAuthenticated(request)
 
 	if (user) {
-		return redirect(`/${user.wsPbId}`)
+		return redirect(`/${user.workspaceId}`)
 	}
 	return json({})
 }
