@@ -1,21 +1,23 @@
-import { invariantResponse } from '@epic-web/invariant'
 import { type LoaderFunctionArgs, json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { ProjectCard } from '~/components/project/project-card'
 import { createProjectFormAction } from '~/forms/create-project'
-import { getWorkspaceProjects } from '~/repository/project.repository.server'
+import { getMemberProjects } from '~/repository/project.repository.server'
 import { auth } from '~/utils/auth.server'
 import { db } from '~/utils/db.server'
 
 export const action = createProjectFormAction
 
 export async function loader({ request }: LoaderFunctionArgs) {
-	const user = await auth.isAuthenticated(request)
-
-	invariantResponse(user, 'user not authenticated')
-	const projects = await getWorkspaceProjects(db, {
-		workspaceId: user.workspaceId,
+	const { membershipId, workspaceId } = await auth.isAuthenticated(request, {
+		failureRedirect: '/login',
 	})
+
+	const projects = await getMemberProjects(db, {
+		workspaceId,
+		membershipId,
+	})
+
 	return json({ projects })
 }
 
