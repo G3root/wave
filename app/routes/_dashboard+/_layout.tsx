@@ -10,7 +10,7 @@ export async function loader({ request, params, context }: LoaderFunctionArgs) {
 	})
 
 	invariantResponse(params.workspaceId, 'workspaceId params not found')
-	invariantResponse(user, 'user not found')
+
 	invariantResponse(
 		params.workspaceId === user.workspaceId,
 		'user not authenticated',

@@ -20,7 +20,7 @@ export function ProjectCard(props: ProjectCardProps) {
 	const { user } = useDashboardLoaderData()
 	const { description, name, status, publicId } = props
 	return (
-		<Link to={`/${user.wsPbId}/projects/${publicId}`}>
+		<Link to={`/${user.workspaceId}/projects/${publicId}`}>
 			<Card>
 				<CardHeader>
 					<CardTitle>{name}</CardTitle>

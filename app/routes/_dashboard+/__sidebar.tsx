@@ -43,7 +43,7 @@ function NavItem(item: NavItem) {
 export function SideBar({ className }: SideBarProps) {
 	const { pathname } = useLocation()
 	const { user } = useDashboardLoaderData()
-	const basePath = `/${user.wsPbId}`
+	const basePath = `/${user.workspaceId}`
 
 	const navigation: NavItem[] = [
 		{
