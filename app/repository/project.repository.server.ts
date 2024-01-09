@@ -1,4 +1,7 @@
-import { type TCreateProjectSchema } from '~/schema/project.schema'
+import {
+	type TCreateProjectSchema,
+	type TUpdateProjectSchema,
+} from '~/schema/project.schema'
 import { type KyselyDb } from '~/utils/db.server'
 import { generatePublicId } from '~/utils/public-id'
 
@@ -10,6 +13,18 @@ export const createProject = (db: KyselyDb, data: TCreateProjectSchema) => {
 			publicId: generatePublicId(),
 			...data,
 		})
+		.executeTakeFirst()
+}
+
+export const updateProject = (db: KyselyDb, data: TUpdateProjectSchema) => {
+	const { workspaceId, ...rest } = data
+	return db
+		.updateTable('project')
+		.set({
+			...rest,
+		})
+		.where('workspaceId', '==', workspaceId)
+		.returningAll()
 		.executeTakeFirst()
 }
 
