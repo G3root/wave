@@ -49,18 +49,18 @@ export function SideBar({ className }: SideBarProps) {
 		{
 			label: 'Dashboard',
 			active: pathname === basePath,
-			Icon: <Icon name="dashboard" />,
+			Icon: <Icon name="layout-dashboard" />,
 			path: basePath,
 		},
 		{
 			label: 'Projects',
 			active: pathname.startsWith(basePath + '/projects'),
-			Icon: <Icon name="card-stack" />,
+			Icon: <Icon name="folder-kanban" />,
 			path: basePath + '/projects',
 		},
 		{
 			label: 'Inbox',
-			Icon: <Icon name="envelope-open" />,
+			Icon: <Icon name="inbox" />,
 		},
 	]
 
