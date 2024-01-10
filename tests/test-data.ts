@@ -1,4 +1,4 @@
-import { type ProjectStatus } from '~/types/kysely-schema'
+import { type MembershipStatus, type ProjectStatus } from '~/types/kysely-schema'
 export const TEST_ADMINS = [
 	'test-admin1@exmple.com',
 	'test-admin2@exmple.com',
@@ -14,4 +14,10 @@ export const PROJECT_STATUS: ProjectStatus[] = [
 	'in-progress',
 	'paused',
 	'planed',
+]
+
+export const MEMBERSHIP_STATUS: MembershipStatus[] = [
+	'accepted',
+	'declined',
+	'pending',
 ]

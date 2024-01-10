@@ -1,5 +1,6 @@
 import { type PrismaClient } from '@prisma/client'
 import { generateWorkspaceName } from '~/repository/workspace.repository.server'
+import { type MembershipStatus } from '~/types/kysely-schema'
 import { prisma } from '~/utils/prisma.server'
 import { generatePublicId } from '~/utils/public-id'
 
@@ -28,10 +29,15 @@ export function createWorkspace(creator: Tuser) {
 
 export type TWorkspace = Awaited<ReturnType<typeof createWorkspace>>
 
-export function createMembership(user: Tuser, workspace: TWorkspace) {
+export function createMembership(
+	user: Tuser,
+	workspace: TWorkspace,
+	status: MembershipStatus,
+) {
 	return prisma.membership.create({
 		data: {
 			publicId: generatePublicId(),
+			status,
 			user: {
 				connect: user,
 			},
