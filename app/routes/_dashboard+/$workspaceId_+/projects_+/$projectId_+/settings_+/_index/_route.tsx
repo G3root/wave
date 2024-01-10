@@ -3,7 +3,6 @@ import { invariantResponse } from '@epic-web/invariant'
 import { type LoaderFunctionArgs, json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import * as z from 'zod'
-import { Separator } from '~/components/ui/separator'
 
 import {
 	ProjectGeneralSettingsForm,
@@ -12,6 +11,7 @@ import {
 import { getMemberProject } from '~/repository/project.repository.server'
 import { auth } from '~/utils/auth.server'
 import { db } from '~/utils/db.server'
+import { SettingsPageHeader } from '../__page-header'
 
 const paramsSchema = z.object({
 	projectId: z.string(),
@@ -37,17 +37,13 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 export default function ProjectSettingsPage() {
 	const { project } = useLoaderData<typeof loader>()
 	return (
-		<div className="flex flex-col gap-y-6">
-			<div>
-				<h3 className="text-lg font-medium">Profile</h3>
-				<p className="text-sm text-muted-foreground">
-					This is how others will see you on the site.
-				</p>
-			</div>
-			<Separator />
+		<SettingsPageHeader
+			title="Profile"
+			description={<>This is how others will see you on the site.</>}
+		>
 			<ProjectGeneralSettingsForm
 				defaultData={{ description: project.description, name: project.name }}
 			/>
-		</div>
+		</SettingsPageHeader>
 	)
 }
