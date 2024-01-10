@@ -16,6 +16,32 @@ export const createProject = (db: KyselyDb, data: TCreateProjectSchema) => {
 		.executeTakeFirst()
 }
 
+interface createProjectWithMemberOptions extends TCreateProjectSchema {
+	membershipId: string
+}
+
+export const createProjectWithMember = async (
+	db: KyselyDb,
+	data: createProjectWithMemberOptions,
+) => {
+	const { workspaceId, membershipId, ...rest } = data
+
+	const project = await createProject(db, { ...rest, workspaceId })
+
+	if (!project) {
+		throw new Error('project not found')
+	}
+
+	await db
+		.insertInto('projectOnMembers')
+		.values({
+			membershipId,
+			projectId: project.publicId,
+		})
+		.executeTakeFirstOrThrow()
+	return project
+}
+
 export const updateProject = (db: KyselyDb, data: TUpdateProjectSchema) => {
 	const { workspaceId, ...rest } = data
 	return db
@@ -64,4 +90,18 @@ export const getMemberProject = (
 		.limit(1)
 		.selectAll('p')
 		.executeTakeFirst()
+}
+
+export const getProjectMembers = (
+	db: KyselyDb,
+	{ projectId }: { projectId: string },
+) => {
+	return db
+		.selectFrom('membership as m')
+		.innerJoin('projectOnMembers as pm', 'pm.membershipId', 'm.publicId')
+		.innerJoin('user as u', 'm.userId', 'u.publicId')
+		.where('pm.projectId', '==', projectId)
+		.selectAll(['m'])
+		.select(['u.email', 'u.name'])
+		.execute()
 }

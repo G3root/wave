@@ -5,21 +5,33 @@ import { json, type ActionFunctionArgs } from '@remix-run/node'
 import { useActionData, Form } from '@remix-run/react'
 
 import { Field, TextareaField } from '~/components/forms'
-import { createProject } from '~/repository/project.repository.server'
+import { createProjectWithMember } from '~/repository/project.repository.server'
 import { useDashboardLoaderData } from '~/routes/_dashboard+/_layout'
 import { createProjectSchema } from '~/schema/project.schema'
+import { auth } from '~/utils/auth.server'
 import { db } from '~/utils/db.server'
 import { createToastHeaders } from '~/utils/toast.server'
 
 export async function createProjectFormAction({ request }: ActionFunctionArgs) {
 	const formData = await request.formData()
+	const user = await auth.isAuthenticated(request, {
+		failureRedirect: '/login',
+	})
 
 	const submission = parse(formData, { schema: createProjectSchema })
 	if (!submission.value) {
 		return json({ status: 'error', submission }, { status: 400 })
 	}
 
-	await createProject(db, submission.value)
+	const value = submission.value
+
+	await db.transaction().execute(trx => {
+		return createProjectWithMember(trx, {
+			...value,
+			membershipId: user.membershipId,
+			workspaceId: user.workspaceId,
+		})
+	})
 
 	return json(
 		{ submission },
